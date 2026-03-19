@@ -41,3 +41,5 @@ Streamlit "reruns" the entire script every time a user interacts with a widget, 
 One habit I want to reuse is the "test-driven" approach of writing small, focused functions in a separate logic file and testing them immediately. This made it much easier to isolate and fix the bugs without getting distracted by the UI. I also found that marking "crime scenes" with FIXME comments was a great way to stay organized during a complex debugging session.
 
 Next time, I would be more skeptical of AI-generated logic that involves type conversions, especially in languages like Python where dynamic typing can lead to subtle bugs. This project really highlighted how AI can generate code that "looks" right but is fundamentally broken under the surface, making it essential for a human to carefully review and test every line.
+
+This project changed the way I think about AI-generated code by showing me that AI is great for scaffolding and refactoring but can fail at basic logic. I now see AI as a powerful but "unreliable narrator" that requires rigorous human verification to be truly useful.

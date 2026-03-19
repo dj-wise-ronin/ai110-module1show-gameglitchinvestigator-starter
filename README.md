@@ -2,37 +2,43 @@
 
 ## 🚨 The Situation
 
-You asked an AI to build a simple "Number Guessing Game" using Streamlit.
-It wrote the code, ran away, and now the game is unplayable. 
-
-- You can't win.
-- The hints lie to you.
-- The secret number seems to have commitment issues.
+This project started with an AI-generated guessing game that was fundamentally broken. The hints were backward, the difficulty levels were inconsistent, and the scoring system was unfair. Through careful investigation and AI-assisted debugging, these issues have been resolved.
 
 ## 🛠️ Setup
 
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run the broken app: `python -m streamlit run app.py`
+1. Install dependencies: `pip install -r requirements.txt` (Note: `streamlit` and `pytest` are required).
+2. Run the fixed app: `python3 -m streamlit run app.py`
 
-## 🕵️‍♂️ Your Mission
+## 🕵️‍♂️ My Mission
 
-1. **Play the game.** Open the "Developer Debug Info" tab in the app to see the secret number. Try to win.
-2. **Find the State Bug.** Why does the secret number change every time you click "Submit"? Ask ChatGPT: *"How do I keep a variable from resetting in Streamlit when I click a button?"*
-3. **Fix the Logic.** The hints ("Higher/Lower") are wrong. Fix them.
-4. **Refactor & Test.** - Move the logic into `logic_utils.py`.
-   - Run `pytest` in your terminal.
-   - Keep fixing until all tests pass!
+The goal was to transform a "glitchy" prototype into a production-ready application by:
+1.  **Identifying Bugs:** Backward hints, incorrect difficulty ranges, and scoring glitches.
+2.  **Refactoring:** Moving core game logic from the UI (`app.py`) to a dedicated utility file (`logic_utils.py`).
+3.  **Automated Testing:** Writing and passing unit tests to ensure logical correctness.
+4.  **State Management:** Properly using Streamlit's session state to maintain game progress.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- **Game Purpose:** A number guessing game where players try to find a secret number within a limited number of attempts, with hints and scoring based on their performance.
+- **Bugs Found:**
+    - **Backward Hints:** The game told players to go higher when they were already too high.
+    - **Difficulty Mismatch:** "Hard" mode was actually 1-50, making it easier than "Normal" (1-100).
+    - **Scoring Glitches:** Players could gain points for incorrect guesses if their attempt number was even.
+    - **Type Confusion:** The secret number was occasionally compared as a string, leading to lexicographical errors (e.g., "10" < "2").
+- **Fixes Applied:**
+    - Refactored all game logic into `logic_utils.py`.
+    - Corrected the comparison logic and hint messages in `check_guess`.
+    - Adjusted `get_range_for_difficulty` so "Hard" mode is 1-200.
+    - Standardized `update_score` to deduct points for incorrect guesses.
+    - Ensured the secret number is always handled as an integer during comparisons.
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+- **Test Results:** All 6 unit tests passed successfully.
+- **Winning Game:** The game now provides accurate "Go HIGHER/LOWER" hints and correctly tracks scores and attempts.
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
+- [x] **Refactored Logic:** Successfully separated UI and business logic.
+- [x] **Automated Tests:** Added 6 robust test cases in `tests/test_game_logic.py`.
+- [x] **Type Safety:** Resolved the string/integer comparison bug.
