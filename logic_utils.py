@@ -1,0 +1,69 @@
+def get_range_for_difficulty(difficulty: str):
+    """Return (low, high) inclusive range for a given difficulty."""
+    # FIX: Increased Hard range to be more difficult than Normal.
+    if difficulty == "Easy":
+        return 1, 20
+    if difficulty == "Normal":
+        return 1, 100
+    if difficulty == "Hard":
+        return 1, 200
+    return 1, 100
+
+
+def parse_guess(raw: str):
+    """
+    Parse user input into an int guess.
+
+    Returns: (ok: bool, guess_int: int | None, error_message: str | None)
+    """
+    if raw is None or raw.strip() == "":
+        return False, None, "Enter a guess."
+
+    try:
+        # Handle cases where user might enter a float-like string.
+        if "." in raw:
+            value = int(float(raw))
+        else:
+            value = int(raw)
+    except (ValueError, TypeError):
+        return False, None, "That is not a number."
+
+    return True, value, None
+
+
+def check_guess(guess, secret):
+    """
+    Compare guess to secret and return (outcome, message).
+
+    outcome examples: "Win", "Too High", "Too Low"
+    """
+    # FIX: Corrected hints and removed type-confusion bug.
+    # We ensure secret is always an int for comparison.
+    try:
+        secret_int = int(secret)
+    except (ValueError, TypeError):
+        # This shouldn't happen with proper logic, but we'll be safe.
+        return "Error", "Something went wrong with the secret number."
+
+    if guess == secret_int:
+        return "Win", "🎉 Correct!"
+    elif guess > secret_int:
+        return "Too High", "📉 Go LOWER!"
+    else:
+        return "Too Low", "📈 Go HIGHER!"
+
+
+def update_score(current_score: int, outcome: str, attempt_number: int):
+    """Update score based on outcome and attempt number."""
+    # FIX: Removed positive points for "Too High" outcome.
+    if outcome == "Win":
+        points = 100 - 10 * (attempt_number)
+        if points < 10:
+            points = 10
+        return current_score + points
+
+    # No longer gain points for being wrong.
+    if outcome in ["Too High", "Too Low"]:
+        return current_score - 5
+
+    return current_score
